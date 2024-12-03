@@ -249,13 +249,9 @@ if ($consulta->num_rows > 0) {
             <td class='px-6 py-4'>{$row['Ultima_Visita']}</td>
             <td class='px-6 py-4'>{$row['Telefonos']}</td>
         <td class='px-10 py-4'>
-<<<<<<< HEAD
+
                 <a href=updatepacientes.php?id={$row['Paciente_ID']} 
                    class='text-blue-500 hover:underline'>
-=======
-               <a href='updatepacientes.php?id={$row['Paciente_ID']}' 
-                   class='btn btn-warning'>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
                     Modificar
                 </a>
                 

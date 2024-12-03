@@ -264,15 +264,10 @@ if ($consulta->num_rows > 0) {
             <td class='px-13 py-4'>{$row['Fecha_Fin']}</td>
             <td class='px-10 py-4'>{$row['Estado_Cargo']}</td>
             <td class='px-8 py-4'>{$row['Telefonos']}</td>
-<<<<<<< HEAD
+
              <td class='px-4 py-4'>
                 <a href='updateEmpleado.php?id={$row['Empleado_ID']}' 
                   class='text-blue-500 hover:underline'>
-=======
-            <td class='px-4 py-4'>
-                <a href='updateEmpleado.php?id={$row['Empleado_ID']}' 
-                   class='btn btn-warning'>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
                     Modificar
                 </a>
 

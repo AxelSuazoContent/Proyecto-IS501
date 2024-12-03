@@ -91,11 +91,11 @@ include_once("conexion.php");
             </p>
         </div>
         <div><br><button type="button"     class="w-full max-w-sm rounded-xl bg-white-600 text-black font-bold py-3 px-6 hover:bg-white-800 focus:ring-4 focus:ring-blue-300"
-<<<<<<< HEAD
+
         onclick="location.href='Pacientes.php'">Volver</button></div><br>
-=======
-        onclick="location.href='Empleado.php'">Volver</button></div><br>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
+        
+
         <!-- Formulario -->
         <form method="POST"  class="formulario">
         <?php
@@ -340,12 +340,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "El ID del paciente no se proporcionó.";
     }
 }
-<<<<<<< HEAD
-?>
-=======
+
 ?>
 
 
 
-
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
