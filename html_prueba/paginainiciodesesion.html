@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CourseCrafters</title>
+  <link rel="icon" href="logo.ico">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    body {
+      background-color: #09A4AB;
+      /* Color de fondo menta */
+      font-family: Arial, sans-serif;
+      /* Fuente predeterminada */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      /* Centrar verticalmente en la página */
+    }
+
+    #password {
+      width: calc(100% - 22px);
+      /* Ancho del campo de entrada menos el ancho del borde y el relleno */
+      padding: 10px;
+      /* Relleno del campo de entrada */
+      border: 1px solid #ccc;
+      /* Borde del campo de entrada */
+      border-radius: 5px;
+      /* Esquinas redondeadas del campo de entrada */
+      box-sizing: border-box;
+      /* Incluye el relleno y el borde en el ancho y alto del campo de entrada */
+    }
+
+    #email {
+      width: calc(100% - 22px);
+      /* Ancho del campo de entrada menos el ancho del borde y el relleno */
+      padding: 10px;
+      /* Relleno del campo de entrada */
+      border: 1px solid #ccc;
+      /* Borde del campo de entrada */
+      border-radius: 5px;
+      /* Esquinas redondeadas del campo de entrada */
+      box-sizing: border-box;
+      /* Incluye el relleno y el borde en el ancho y alto del campo de entrada */
+    }
+
+    #Empezar {
+      font-family: "Be Vietnam Pro", sans-serif;
+
+      font-size: 48px;
+      font-weight: 900;
+
+      color: rgb(0, 0, 0);
+      /* Gris opaco con 50% de opacidad */
+    }
+
+    #camino {
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      /* Peso Regular */
+
+      color: rgba(128, 128, 128, 0.733);
+      /* Gris opaco con 50% de opacidad */
+    }
+
+    #labelcorreo {
+      font-family: "Arial", sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      /* Texto en negrita */
+    }
+
+    .campo {
+      margin-bottom: 10px;
+      /* Espacio de 10px hacia abajo */
+    }
+
+    .input {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    .form-container {
+      box-shadow: 0px 0px 30px #000000a2;
+      background-color: #fff;
+      /* Color de fondo del contenedor */
+      border-radius: 4px;
+      /* Borde redondeado */
+      padding: 20px;
+      width: 400px;
+      /* Ancho deseado del contenedor */
+      height: 500px;
+    }
+
+    #boton {
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.74);
+      display: block;
+      width: 100%;
+      /* Ancho del botón al 100% del contenedor */
+      padding: 13px;
+      /* Relleno del botón */
+      background-color: #008A90;
+      /* Color de fondo del botón */
+      color: white;
+      /* Color del texto del botón */
+      border: none;
+      /* Quita el borde del botón */
+      border-radius: 5px;
+      /* Esquinas redondeadas del botón */
+      cursor: pointer;
+      /* Cambia el cursor al pasar sobre el botón */
+    }
+
+
+    .formulario input[type="email"],
+    .formulario input[type="password"],
+    .formulario button {
+
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      /* Borde gris */
+      border-radius: 5px;
+      /* Borde redondeado */
+    }
+
+    .formulario button {
+      background-color: #5DC1B9;
+      /* Color de fondo de botón de Google */
+      color: #fff;
+      /* Color de texto blanco */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      /* Transición suave */
+    }
+
+    .formulario button:hover {
+      background-color: #5DC1B9;
+      /* Cambiar color de fondo al pasar el cursor */
+    }
+
+    .google-btn {
+      display: inline-block;
+      background-color: #393e43;
+      /* Color de fondo de Google */
+      color: white;
+      padding: 4px 100px;
+      border-radius: 5px;
+      font-size: 25px;
+      font-weight: bold;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      /* Alinea verticalmente los elementos */
+
+
+    }
+
+    /* Estilos para la imagen dentro del botón */
+    .btn-img {
+      width: 35px;
+      /* Ancho deseado de la imagen */
+      height: 35px;
+      /* Altura deseada de la imagen */
+      margin-right: 1px;
+      /* Espacio entre la imagen y el texto */
+
+    }
+
+    .btn-text {
+      font-size: 15px;
+      text-align: center;
+
+    }
+
+    #imagen {
+      box-shadow: 0px 0px 20px #00000081;
+      border-radius: 4px;
+      width: 440px;
+      /* Ancho deseado del contenedor */
+      height: 540px;
+      /* Altura del contenedor */
+      background-color: #f0f0f0;
+      /* Color de fondo del contenedor (solo para ejemplo) */
+      float: left;
+      /* Hace que el contenedor flote a la izquierda */
+      margin-right: 20px;
+      /* Margen a la derecha para separar la imagen del contenedor */
+    }
+
+    .create-account {
+
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .create-account a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+  <script type="module" src="farebase.js"></script>
+  <script type="module" src="login.js"></script>
+ 
+</head>
+
+<body>
+
+  <div class="form-container">
+    <label id="Empezar">INICIO</label>
+    <h2 id="camino">Administrador</h2>
+    <form id="formulario-sesion">
+      
+      </button><br>
+      <label for="email" id="labelcorreo">Correo electrónico:</label>
+      <input type="email" id="email" name="email"><br><br>
+      <label for="password" id="labelcorreo">Contraseña:</label>
+      <input type="password" id="password" name="password"><br><br>
+      <input type="submit" id="boton" value="Iniciar Sesion">
+      <div class="create-account"><br>
+        <p>¿No tienes una cuenta? <a href="paginacrearcuenta.html">Crear una cuenta</a></p>
+      </div>
+    </form>
+
+  </div>
+  <div class="contenedor">
+
+  </div>
+  <img id="imagen" src="imagen1.avif" alt="Imagen">
+</body>
+
+</html>

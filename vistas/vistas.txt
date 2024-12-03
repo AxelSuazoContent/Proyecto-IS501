@@ -1,0 +1,13 @@
+Vistas
+1.Buscar Pacientes (nombre,id,ultimavisita,telefono)
+2.buscar empleados (Nombre,ID,Cargo,Telefono)
+3.Agregar cita (ID,nombre,dia,hora,especialidad,razon de la visita,hospital)
+4.generar factura (id,fecha de emision,monto total,id paciente,cita medica id,pagoid,estado)
+5.agregar paciente(conbobox)(Nombre,fecha de nacimiento,sexo,identidad,telefono,correo,tipo poliza,contacto emergencia)
+6.agregar nuevo empleado(Nombre,fecha de nacimiento,sexo,identidad,telefono,correo,contacto emergencia,cargo,especialidad)
+7.hospital(id,nombre,telefonoid,ciudadid,tipos de hospitales)relaciones hospitales con cita y cita a historial medico,paciente con hospital
+8.historia medico(idhistorial,nombre paciente,hospital,Fecha)
+9.generar reporte historia(idhistorial,idpaciente,nombrepaciente,apellido paciente,obsevaciones,identidad,telefono,hospital,fechahistorial)
+10.consulta medica(observaciones,idempleado,idpaciente,nombreempleado,nombrepaciente,idconsulta,fechahora,diganostico,recetas)"Reporte devera llevar una parte de esto"
+
+
