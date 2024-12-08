@@ -329,7 +329,7 @@ if ($consulta->num_rows > 0) {
                     
                   </div>
                   <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#">
+                  <a href="https://github.com/tukigaming/Proyecto-IS501.git">
                       <div class="text-[#4f7296]" data-icon="GithubLogo" data-size="24px" data-weight="regular">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                           <path
