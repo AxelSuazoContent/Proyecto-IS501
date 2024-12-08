@@ -320,11 +320,7 @@ include 'conexion.php';
             <?php endfor; ?>
         </div>
 
-        <a href="EditarPaciente.php">
-    <button type="button" class="px-10 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">
-        Agregar Paciente
-    </button>
-</a>
+       
 
     </div>
 </main>

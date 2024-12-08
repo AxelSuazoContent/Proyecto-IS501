@@ -170,7 +170,8 @@
                 // Aseguramos que el filtro se haga correctamente sobre los pacientes
                 $sql = "
                 SELECT 
-                    p.*
+                    p.*,
+                    pa.ID as Paciente_ID
                 FROM 
                     Persona p
                 INNER JOIN Paciente pa ON p.ID = pa.Persona_ID 
@@ -183,7 +184,7 @@
                 // Inicializamos las variables para evitar errores si no hay datos
                 $row1 = null;
                 $nombreCompleto = '';
-                $personaID = '';
+                $Paciente = '';
                 $numeroTelefono = '';
                 
                 // Verificamos si se obtuvieron resultados
@@ -191,7 +192,7 @@
                     // Si se encontraron datos, los procesamos
                     $row1 = $resultado->fetch_assoc();
                     $nombreCompleto = $row1['PNombre'] . ' ' . $row1['SNombre'] . ' ' . $row1['PApellido'] . ' ' . $row1['SApellido'];
-                    $personaID = $row1['ID'];
+                    $Paciente = $row1['ID'];
                     // Verificamos si hay teléfono
                     
                 } else {
@@ -200,7 +201,7 @@
                 
                 ?>
 
-<input type="hidden" name="PersonaID" value="<?php echo htmlspecialchars($personaID); ?>">
+
 
 
             
@@ -310,41 +311,48 @@ while ($resultado = $sql->fetch_assoc()) {
 </div>
 <?php
 include_once("conexion.php");
+var_dump($_GET);
+
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $Paciente = intval($_GET['id']);
+    var_dump($Paciente); // Verifica si el ID se captura correctamente
+} else {
+    echo "Error: No se ha proporcionado un ID de paciente válido en la URL.<br>";
+    exit;
+}
 
 // Verificar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recoger los datos enviados desde el formulario
-    // Nombre del tipo de póliza
-    $Detalles = isset($_POST['Poliza']) ? $_POST['Poliza'] : null;           // Detalles de la póliza
-    $NumPoliza = $_POST['NumPoliza'];         // Número de la póliza
-    $FechaInicio = $_POST['Fechainicio'];     // Fecha de inicio
-    $FechaCaducacion = $_POST['FechaCaducacion']; // Fecha de caducación
-    $personaID = intval($_POST['PersonaID']);      // ID del paciente (debe estar en el formulario)
-    
-    echo "<h3>Datos Recibidos del Formulario:</h3>";
-    
-    echo "Detalles de la Póliza: $Detalles<br>";
-    echo "Número de Póliza: $NumPoliza<br>";
-    echo "Fecha de Inicio: $FechaInicio<br>";
-    echo "Fecha de Caducación: $FechaCaducacion<br>";
-    echo "ID del Paciente: $personaID<br>";
+    $Detalles = isset($_POST['Poliza']) ? $_POST['Poliza'] : null;
+    $NumPoliza = $_POST['NumPoliza'];
+    $FechaInicio = $_POST['Fechainicio'];
+    $FechaCaducacion = $_POST['FechaCaducacion'];
 
     // Verificar si el paciente existe
-    $sqlObtenerPacienteID = "SELECT ID FROM PACIENTE WHERE PERSONA_ID = $personaID LIMIT 1";
-$resultadoPaciente = $conexion->query($sqlObtenerPacienteID);
+    $sqlObtenerPacienteID = "SELECT ID FROM PACIENTE WHERE ID = $Paciente LIMIT 1";
+    $resultadoPaciente = $conexion->query($sqlObtenerPacienteID);
 
-    
-        
-        $sqlPacientePoliza = "INSERT INTO paciente_has_poliza (PACIENTE_ID, POLIZA_ID,Fecha_caducacion, Fecha_inicio, Num_Poliza) 
-                              VALUES ('$personaID', '$Detalles', '$FechaInicio', '$FechaCaducacion', '$NumPoliza')";
-
-        if (mysqli_query($conexion, $sqlPacientePoliza)) {
-            echo "Poliza de paciente agregada con exito.";
-        } else {
-            echo "Error al insertar en paciente_has_poliza: " . mysqli_error($conexion);
-        }
+    if (!$resultadoPaciente) {
+        echo "Error en la consulta SQL: " . $conexion->error;
+        exit;
     }
 
+    if ($resultadoPaciente->num_rows == 0) {
+        echo "Error: El ID de paciente $Paciente no existe en la base de datos.<br>";
+        exit;
+    }
+
+    // Insertar en la tabla paciente_has_poliza
+    $sqlPacientePoliza = "INSERT INTO paciente_has_poliza 
+                          (PACIENTE_ID, POLIZA_ID, Fecha_inicio, Fecha_caducacion, Num_Poliza) 
+                          VALUES ('$Paciente', '$Detalles', '$FechaInicio', '$FechaCaducacion', '$NumPoliza')";
+
+    if (mysqli_query($conexion, $sqlPacientePoliza)) {
+        echo "Póliza de paciente agregada con éxito.";
+    } else {
+        echo "Error al insertar en paciente_has_poliza: " . mysqli_error($conexion);
+    }
+}
 ?>
 
 
