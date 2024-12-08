@@ -198,6 +198,11 @@ include_once("conexion.php");
 
         onclick="location.href='Pacientes.php'">Volver</button></div><br>
 
+<<<<<<< HEAD
+=======
+        
+
+>>>>>>> 215391eda069db874f5832926e8ac55744818787
         <!-- Formulario -->
         <form method="POST"  class="formulario">
         <?php
@@ -445,3 +450,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 215391eda069db874f5832926e8ac55744818787
