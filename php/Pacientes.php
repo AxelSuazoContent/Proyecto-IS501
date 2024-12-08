@@ -293,17 +293,7 @@ if ($consulta->num_rows > 0) {
             <td class='px-6 py-4'>{$row['Paciente_ID']}</td>
             <td class='px-6 py-4'>{$row['Ultima_Visita']}</td>
             <td class='px-6 py-4'>{$row['Telefonos']}</td>
-<<<<<<< HEAD
-=======
-        <td class='px-10 py-4'>
 
-                <a href=updatepacientes.php?id={$row['Paciente_ID']} 
-                   class='text-blue-500 hover:underline'>
-                    Modificar
-                </a>
-                
-            </td>
->>>>>>> 215391eda069db874f5832926e8ac55744818787
             <td class='px-10 py-4'>
                 <div class='dropdown'>
                     <button class='dropdown-button'>Acciones</button>

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> 215391eda069db874f5832926e8ac55744818787
 <html>
   <head>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
@@ -737,24 +734,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                   SET Fecha_Contratacion = '$FehaContrata', Gerente_ID = '$Gerente'
                                   WHERE ID = '$empleado_id'";
             if (mysqli_query($conexion, $sqlUpdateEmpleado)) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 215391eda069db874f5832926e8ac55744818787
+
+
 
 
               if (empty($Cargo) || empty($FechaInicio) || empty($Fechafin)) {
                 die("Los datos del cargo son inválidos o están incompletos.");
             }
                 $sqlUpdateCargo = "UPDATE EMPLEADO_has_CARGO 
-<<<<<<< HEAD
                    SET CARGO_ID = '$Cargo', Fecha_Inicio = '$FechaInicio', Fecha_Fin = '$Fechafin'
                    WHERE EMPLEADO_ID = '$empleadoId'";
-=======
-                                   SET CARGO_ID = '$Cargo', Fecha_Inicio = '$FechaInicio', Fecha_Fin = '$Fechafin'
 
-                                   WHERE EMPLEADO_ID = '$empleadoId'";
->>>>>>> 215391eda069db874f5832926e8ac55744818787
 
                                   
 
@@ -764,16 +755,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Actualizar área de trabajo
                 $sqlUpdateArea = "UPDATE empleado_has_area_trabajo 
-<<<<<<< HEAD
+
                   SET Area_Trabajo_ID = '$Area', Fecha_Hora_Asignacion = '$FechaHoraArea', Fecha_Hora_Fin = '$FechaHoraArea2'
-                  WHERE EMPLEADO_ID = '$empleadoId'";
-=======
-                                  SET Area_Trabajo_ID = '$Area', Fecha_Hora_Asignacion = '$FechaHoraArea', Fecha_Hora_Fin = '$FechaHoraArea2'
-
-                                  WHERE EMPLEADO_ID = '$empleadoId'";
->>>>>>> 215391eda069db874f5832926e8ac55744818787
-
-                                  
+                  WHERE EMPLEADO_ID = '$empleadoId'"; 
 
                 if (!mysqli_query($conexion, $sqlUpdateArea)) {
                     echo "Error al actualizar empleado_has_area_trabajo: " . mysqli_error($conexion);
@@ -784,18 +768,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $sqlUpdateEspecialidad = "UPDATE EMPLEADO_has_ESPECIALIDAD 
                                               SET ESPECIALIDAD_ID = '$Especi'
-<<<<<<< HEAD
-                                              WHERE empleado_ID = '$empleadoId'";
 
-=======
+
                                               WHERE EMPLEADO_ID = '$empleadoId'";
 
                   
                     $sqlUpdateEspecialidad = "UPDATE EMPLEADO_has_ESPECIALIDAD 
                                               SET ESPECIALIDAD_ID = '$Especi'
-                                              WHERE EMPLEADO_ID = '$PersonaID'"
+                                              WHERE EMPLEADO_ID = '$empleadoId'"
                                               ;  
->>>>>>> 215391eda069db874f5832926e8ac55744818787
+
                                               
 
                     if (!mysqli_query($conexion, $sqlUpdateEspecialidad)) {
@@ -818,8 +800,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 }
 
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> 215391eda069db874f5832926e8ac55744818787
+
