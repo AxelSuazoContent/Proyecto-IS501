@@ -142,6 +142,7 @@ include 'conexion.php';
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -306,7 +307,7 @@ include 'conexion.php';
                     </a>
                     
                   </div>
-                  <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
+                  <a href="../Asset/MANUAL USUARIO EXPEDIENTE_MEDICO.pdf" class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </a>
                 </footer>
               </div>
           </div>

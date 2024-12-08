@@ -137,6 +137,7 @@
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -386,12 +387,13 @@ if ($resultado && $resultado->num_rows > 0) {
 include_once("conexion.php");
 
 // Capturar los datos enviados desde el formulario
-$personaID = intval($_POST['PersonaID']); // Persona seleccionada en la página previa
-$doctorID = intval($_POST['empleado']);
-$fechaHora = $_POST['FechaHora']; // Asegúrate de que sea un valor válido en formato DATETIME
-$observacionesCita = $_POST['Obser'];
-$estado = $_POST['Estado'];
-$habitacionID = intval($_POST['habitacion']);
+$personaID = isset($_POST['PersonaID']) ? intval($_POST['PersonaID']) : 0; // Persona seleccionada o 0 por defecto
+$doctorID = isset($_POST['empleado']) ? intval($_POST['empleado']) : 0; // Doctor seleccionado o 0 por defecto
+$fechaHora = isset($_POST['FechaHora']) ? $_POST['FechaHora'] : ''; // Fecha y hora o cadena vacía
+$observacionesCita = isset($_POST['Obser']) ? $_POST['Obser'] : ''; // Observaciones o cadena vacía
+$estado = isset($_POST['Estado']) ? $_POST['Estado'] : ''; // Estado o cadena vacía
+$habitacionID = isset($_POST['habitacion']) ? intval($_POST['habitacion']) : 0; // Habitación o 0 por defecto
+
 
 // Validar datos requeridos antes de continuar
 if (empty($personaID) || empty($doctorID) || empty($fechaHora) || empty($estado)) {

@@ -7,6 +7,9 @@ include 'conexion.php';
 <!DOCTYPE html>
 <html>
 <head>
+    
+<title>Citas Medicas</title>
+
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" 
           href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" />
@@ -136,6 +139,7 @@ include 'conexion.php';
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -155,7 +159,7 @@ include 'conexion.php';
             <input 
                 type="text" 
                 name="search" 
-                placeholder="Buscar por ID, descripción o licencia" 
+                placeholder="Nombre Completo Paciente o Doctor, Numero(xxxx-xxxx) o Fecha" 
                 class="w-full py-3 px-5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base" 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
             />
@@ -178,17 +182,18 @@ include 'conexion.php';
 
     <div class="bg-white shadow-lg overflow-hidden rounded-lg w-full max-w-full">
     <table class="min-w-full border-collapse">
-        <thead class="bg-gray-100 border-b">
+        <thead class="bg-blue-500 border-b">
             <tr>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">ID</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Fecha y Hora</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Paciente</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Teléfonos</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Doctor</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Observaciones</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Estado</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Num. Habitacion</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Acción</th>
+            <th class="px-6 py-4 text-left text-base font-medium text-white">ID</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Fecha y Hora</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Paciente</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Teléfonos</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Doctor</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Observaciones</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Estado</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Num. Habitación</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Acción</th>
+
             </tr>
         </thead>
         <tbody>
@@ -198,34 +203,40 @@ include 'conexion.php';
         $rows_per_page = intval($_GET['rows_per_page'] ?? 5);
         $page = max(intval($_GET['page'] ?? 1), 1);
         $offset = ($page - 1) * $rows_per_page;
-
+        
         $consulta = $conexion->query(" 
             SELECT 
-    CITA.ID AS CitaID,
-    CITA.Fecha_Hora,
-    CITA.Observaciones,
-    CITA.ESTADO,
-    CITA.HABITACIONES_ID,
-    HAB.Numero AS HabitacionNumero,
-    CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) AS PacienteNombreCompleto,
-    GROUP_CONCAT(DISTINCT T.Numero) AS TelefonoPaciente,  -- Agrupar teléfonos por paciente
-    EMP.ID AS DoctorCodigo,
-    CONCAT(PD.PNombre, ' ', PD.PApellido) AS DoctorNombreCompleto,
-    GROUP_CONCAT(DISTINCT E.Descripcion) AS Especialidad  -- Agrupar especialidades
-FROM 
-    CITA_MEDICA CITA
-INNER JOIN PACIENTE PAC ON CITA.PACIENTE_ID = PAC.ID
-INNER JOIN PERSONA P ON PAC.PERSONA_ID = P.ID
-LEFT JOIN TELEFONO T ON T.Persona_ID = P.ID
-INNER JOIN EMPLEADO EMP ON CITA.DOCTOR_ID = EMP.ID
-INNER JOIN PERSONA PD ON EMP.Persona_ID = PD.ID
-LEFT JOIN EMPLEADO_has_ESPECIALIDAD EHE ON EMP.ID = EHE.EMPLEADO_ID
-LEFT JOIN ESPECIALIDAD E ON EHE.ESPECIALIDAD_ID = E.ID
-LEFT JOIN HABITACION HAB ON CITA.HABITACIONES_ID = HAB.ID
-GROUP BY CITA.ID  -- Agrupar por CitaID para evitar duplicados
-ORDER BY CITA.Fecha_Hora DESC;");
-
-
+                CITA.ID AS CitaID,
+                CITA.Fecha_Hora,
+                CITA.Observaciones,
+                CITA.ESTADO,
+                CITA.HABITACIONES_ID,
+                HAB.Numero AS HabitacionNumero,
+                CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) AS PacienteNombreCompleto,
+                GROUP_CONCAT(DISTINCT T.Numero) AS TelefonoPaciente,  -- Agrupar teléfonos por paciente
+                EMP.ID AS DoctorCodigo,
+                CONCAT(PD.PNombre, ' ', PD.PApellido) AS DoctorNombreCompleto,
+                GROUP_CONCAT(DISTINCT E.Descripcion) AS Especialidad  -- Agrupar especialidades
+            FROM 
+                CITA_MEDICA CITA
+            INNER JOIN PACIENTE PAC ON CITA.PACIENTE_ID = PAC.ID
+            INNER JOIN PERSONA P ON PAC.PERSONA_ID = P.ID
+            LEFT JOIN TELEFONO T ON T.Persona_ID = P.ID
+            INNER JOIN EMPLEADO EMP ON CITA.DOCTOR_ID = EMP.ID
+            INNER JOIN PERSONA PD ON EMP.Persona_ID = PD.ID
+            LEFT JOIN EMPLEADO_has_ESPECIALIDAD EHE ON EMP.ID = EHE.EMPLEADO_ID
+            LEFT JOIN ESPECIALIDAD E ON EHE.ESPECIALIDAD_ID = E.ID
+            LEFT JOIN HABITACION HAB ON CITA.HABITACIONES_ID = HAB.ID
+            WHERE 
+                CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) LIKE '%$busqueda%'
+                OR CONCAT(PD.PNombre, ' ', PD.PApellido) LIKE '%$busqueda%'
+                OR CITA.Fecha_Hora LIKE '%$busqueda%'  -- Búsqueda por fecha y hora
+                OR T.Numero LIKE '%$busqueda%'  -- Búsqueda por número de teléfono
+            GROUP BY CITA.ID  -- Agrupar por CitaID para evitar duplicados
+            ORDER BY CITA.Fecha_Hora DESC
+            LIMIT $offset, $rows_per_page;
+        ");
+        
         // Consulta para contar el total de filas
         $total_consulta = $conexion->query("
             SELECT COUNT(DISTINCT CITA_MEDICA.ID) as total
@@ -240,11 +251,12 @@ ORDER BY CITA.Fecha_Hora DESC;");
             LEFT JOIN ESPECIALIDAD E ON EHE.ESPECIALIDAD_ID = E.ID
             WHERE 
                 CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) LIKE '%$busqueda%'
+                OR CONCAT(PD.PNombre, ' ', PD.PApellido) LIKE '%$busqueda%'
+                OR CITA_MEDICA.Fecha_Hora LIKE '%$busqueda%'
                 OR TELEFONO.Numero LIKE '%$busqueda%'
-                OR CITA_MEDICA.ID LIKE '%$busqueda%'
-                OR CONCAT(PD.PNombre, ' ', PD.SNombre, ' ', PD.PApellido, ' ', PD.SApellido) LIKE '%$busqueda%'
                 OR E.Descripcion LIKE '%$busqueda%'
         ");
+        
 
         if ($total_consulta) {
             $total_rows = $total_consulta->fetch_assoc()['total'];

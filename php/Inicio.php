@@ -1,6 +1,7 @@
 <html>
   
   <head>
+
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
       rel="stylesheet"
@@ -143,6 +144,7 @@
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -157,7 +159,7 @@
           <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="flex flex-wrap justify-between gap-3 p-4">
               <div class="flex min-w-72 flex-col gap-3">
-                <p class="text-[#111717] text-4xl font-black leading-tight tracking-[-0.033em]">Bienvenido, Dr. Smith</p>
+                <p class="text-[#111717] text-4xl font-black leading-tight tracking-[-0.033em]">Bienvenido, Dr. Axel Lobo</p>
                 
               </div>
               
@@ -166,14 +168,14 @@
               <div class="flex flex-col gap-6 px-4 py-10 @[480px]:gap-8 @[864px]:flex-row">
                 <div
                   class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl @[1000px]:h-auto @[560px]:min-w-[560px] @[900px]:w-full"
-                  style='background-image: url("https://cdn.usegalileo.ai/stability/b690e7e5-4211-442e-8c9d-f7c84bca1b98.png");'
-                ></div>
+                  
+                ><img src="../Asset/doctor.png" alt="Descripción de la imagen"></div>
                 <div class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center">
                   <div class="flex flex-col gap-2 text-left">
                     <h1
                       class="text-[#111717] text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]"
                     >
-                      Dr. Jane Smith
+                      Dr. A. Lobo
                     </h1>
                     <h2 class="text-[#111717] text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">Family Medicine</h2>
                   </div>
@@ -187,11 +189,11 @@
                     </a>
                   
                     <a 
-                      href="P.Consultas.html" 
+                      href="Pacientes.php" 
                       class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#f0f4f4] text-[#111717] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] shadow"
                       style="border: 1px solid #272626;"
                     >
-                      <span class="truncate">Agregar Consulta Médica</span>
+                      <span class="truncate">Agregar Poliza</span>
                     </a>
                   </div>
                   
@@ -231,7 +233,7 @@
                       </div>
                     </a>
                     
-                  <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
+                  <a href="../Asset/MANUAL USUARIO EXPEDIENTE_MEDICO.pdf" class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </a>
                 </footer>
              
             </div>

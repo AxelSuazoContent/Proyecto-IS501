@@ -7,6 +7,7 @@ include 'conexion.php';
 <!DOCTYPE html>
 <html>
 <head>
+<title>Pacientes</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" 
           href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" />
@@ -44,6 +45,7 @@ include 'conexion.php';
     /* Menú desplegable */
     .dropdown {
         position: relative;
+        display: inline-block;
     }
 
     .dropdown-btn {
@@ -63,8 +65,9 @@ include 'conexion.php';
     }
 
     .dropdown-content {
-        display: none;
         position: absolute;
+        display: none;
+        
         top: 100%;
         left: 0;
         background-color: white;
@@ -72,7 +75,9 @@ include 'conexion.php';
         border-radius: 0.375rem;
         overflow: hidden;
         z-index: 10;
-        min-width: 12rem;
+        padding: 8px;
+        border-radius: 5px;
+        white-space: nowrap;
     }
 
     .dropdown-content a {
@@ -91,7 +96,35 @@ include 'conexion.php';
     /* Mostrar menú al pasar el ratón */
     .dropdown:hover .dropdown-content {
         display: block;
+      
     }
+
+    .dropdown-content:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+
+.dropdown-content[data-align="top"] {
+    top: auto;
+    bottom: 100%; /* Despliega el menú hacia arriba */
+}
+
+.dropdown-content[data-align="top"] {
+    top: auto;
+    bottom: 100%; /* Muestra el menú hacia arriba */
+}
+
+    .table-container {
+        overflow: visible !important;
+    position: relative; /* Asegúrate de que el contenedor sea un contexto de posición */
+}
+
+
+
 </style>
 
 <header class="flex items-center justify-between px-20 py-5">
@@ -136,6 +169,7 @@ include 'conexion.php';
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -155,7 +189,7 @@ include 'conexion.php';
             <input 
                 type="text" 
                 name="search" 
-                placeholder="Buscar por ID, descripción o licencia" 
+                placeholder="Buscar por ID // Nombre // Fecha // Numero (xxxx-xxxx)" 
                 class="w-full py-3 px-5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base" 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
             />
@@ -175,62 +209,73 @@ include 'conexion.php';
             </select>
         </label>
     </form>
-
-    <div class="bg-white shadow-lg overflow-hidden rounded-lg w-full max-w-8xl">
+    <div class="table-container bg-white shadow-lg overflow-hidden rounded-lg w-full max-w-8xl">
+    
         <table class="min-w-full border-collapse">
-            <thead class="bg-gray-100 border-b">
+            <thead class="bg-blue-500 border-b">
                 <tr>
-                    <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Nombre Completo</th>
-                    <th class="px-6 py-4 text-left text-base font-medium text-gray-600">ID Paciente</th>
-                    <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Última Visita</th>
-                    <th class="px-10 py-4 text-left text-base font-medium text-gray-600">Teléfono</th>
-                    <th class="px-10 py-4 text-left text-base font-medium text-gray-600">Accion</th>
-                    <th class="px-10 py-4 text-left text-base font-medium text-gray-600">Accion</th>
-                    <th class="px-12 py-4 text-left text-base font-medium text-gray-600">Accion</th>
+                <th class="px-6 py-4 text-left text-base font-medium text-white">Nombre Completo</th>
+                <th class="px-6 py-4 text-left text-base font-medium text-white">ID Paciente</th>
+                <th class="px-6 py-4 text-left text-base font-medium text-white">Última Visita</th>
+                <th class="px-10 py-4 text-left text-base font-medium text-white">Teléfono</th>
+                <th class="px-10 py-4 text-left text-base font-medium text-white">Accion</th>
+
+                    
                     
                 </tr>
             </thead>
             <tbody>
            
             <?php
-            $busqueda = $conexion->real_escape_string($_GET['search'] ?? '');
-            $rows_per_page = intval($_GET['rows_per_page'] ?? 5);
-            $page = max(intval($_GET['page'] ?? 1), 1);
-            $offset = ($page - 1) * $rows_per_page;
+                $busqueda = $conexion->real_escape_string($_GET['search'] ?? '');
+                $rows_per_page = intval($_GET['rows_per_page'] ?? 5);
+                $page = max(intval($_GET['page'] ?? 1), 1);
+                $offset = ($page - 1) * $rows_per_page;
 
-
-        $consulta = $conexion->query("
-       SELECT 
-    PACIENTE.ID AS Paciente_ID,
-    CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) AS Nombre_Completo,
-    MAX(Historial_Medico.Fecha) AS Ultima_Visita,
-    GROUP_CONCAT(DISTINCT TELEFONO.Numero SEPARATOR ' , ') AS Telefonos
-FROM 
-    PACIENTE
-INNER JOIN PERSONA ON PACIENTE.PERSONA_ID = PERSONA.ID
-LEFT JOIN TELEFONO ON PERSONA.ID = TELEFONO.Persona_ID
-LEFT JOIN Historial_Medico ON PACIENTE.ID = Historial_Medico.Paciente_ID
-WHERE 
-    CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) LIKE '%$busqueda%'
-    OR TELEFONO.Numero LIKE '%$busqueda%'
-    OR PACIENTE.ID LIKE '%$busqueda%'
-GROUP BY 
-    PACIENTE.ID, Nombre_Completo
-LIMIT $rows_per_page OFFSET $offset;
-        ");
-
-// Consulta para contar el total de filas
-$total_consulta = $conexion->query("
-    SELECT COUNT(DISTINCT PACIENTE.ID) as total
-    FROM 
-        PACIENTE
-    INNER JOIN PERSONA ON PACIENTE.PERSONA_ID = PERSONA.ID
-    LEFT JOIN TELEFONO ON PERSONA.ID = TELEFONO.Persona_ID
-    WHERE 
-        CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) LIKE '%$busqueda%'
-        OR TELEFONO.Numero LIKE '%$busqueda%'
-        OR PACIENTE.ID LIKE '%$busqueda%'
-");
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $busqueda)) {
+                
+                $filtro = "Historial_Medico.Fecha = '$busqueda'";
+            } elseif (preg_match('/^\d{4}-\d{4}$/', $busqueda)) {
+               
+                $filtro = "TELEFONO.Numero LIKE '%$busqueda%'";
+            } elseif (preg_match('/^\d+$/', $busqueda)) {
+              
+                $filtro = "PACIENTE.ID = $busqueda";
+            } else {
+           
+                $filtro = "CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) LIKE '%$busqueda%'";
+            }
+            
+            // Consulta principal con búsqueda dinámica
+            $consulta = $conexion->query("
+                SELECT 
+                    PACIENTE.ID AS Paciente_ID,
+                    CONCAT(PERSONA.PNombre, ' ', IFNULL(PERSONA.SNombre, ''), ' ', PERSONA.PApellido, ' ', IFNULL(PERSONA.SApellido, '')) AS Nombre_Completo,
+                    MAX(Historial_Medico.Fecha) AS Ultima_Visita,
+                    GROUP_CONCAT(DISTINCT TELEFONO.Numero SEPARATOR ' , ') AS Telefonos
+                FROM 
+                    PACIENTE
+                INNER JOIN PERSONA ON PACIENTE.PERSONA_ID = PERSONA.ID
+                LEFT JOIN TELEFONO ON PERSONA.ID = TELEFONO.Persona_ID
+                LEFT JOIN Historial_Medico ON PACIENTE.ID = Historial_Medico.Paciente_ID
+                WHERE 
+                    $filtro
+                GROUP BY 
+                    PACIENTE.ID, Nombre_Completo
+                LIMIT $rows_per_page OFFSET $offset;
+            ");
+            
+            // Consulta para contar el total de filas
+            $total_consulta = $conexion->query("
+                SELECT COUNT(DISTINCT PACIENTE.ID) as total
+                FROM 
+                    PACIENTE
+                INNER JOIN PERSONA ON PACIENTE.PERSONA_ID = PERSONA.ID
+                LEFT JOIN TELEFONO ON PERSONA.ID = TELEFONO.Persona_ID
+                LEFT JOIN Historial_Medico ON PACIENTE.ID = Historial_Medico.Paciente_ID
+                WHERE 
+                    $filtro
+            ");
 
 if ($total_consulta) {
     $total_rows = $total_consulta->fetch_assoc()['total'];
@@ -243,36 +288,24 @@ if ($total_consulta) {
 // Mostrar resultados
 if ($consulta->num_rows > 0) {
     while ($row = $consulta->fetch_assoc()) {
-        echo "<tr class='border-t bg-[#f9fafb]'> <!-- Cambia el color de fondo -->
+        echo "<tr class='border-t bg-[#f9fafb]'>
             <td class='px-6 py-4'>{$row['Nombre_Completo']}</td>
             <td class='px-6 py-4'>{$row['Paciente_ID']}</td>
             <td class='px-6 py-4'>{$row['Ultima_Visita']}</td>
             <td class='px-6 py-4'>{$row['Telefonos']}</td>
-        <td class='px-10 py-4'>
-<<<<<<< HEAD
-                <a href=updatepacientes.php?id={$row['Paciente_ID']} 
-                   class='text-blue-500 hover:underline'>
-=======
-               <a href='updatepacientes.php?id={$row['Paciente_ID']}' 
-                   class='btn btn-warning'>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
-                    Modificar
-                </a>
-                
-            </td>
             <td class='px-10 py-4'>
-                <a href=''
-                   class='text-blue-500 hover:underline'>
-                    Agregar Poliza
-                </a>
-                
+                <div class='dropdown'>
+                    <button class='dropdown-button'>Acciones</button>
+                    <div class='dropdown-content'>
+                        <a href='updatepacientes.php?id={$row['Paciente_ID']}' class='text-blue-500 hover:underline'>Modificar</a>
+                        <a href='AgregarPoliza.php?id={$row['Paciente_ID']}' class='text-blue-500 hover:underline'>Agregar Poliza</a>
+                        <a href='AgregarCita.php?id={$row['Paciente_ID']}' class='text-blue-500 hover:underline'>Agregar Cita</a>
+                    </div>
+                </div>
             </td>
-            <td class='px-10 py-4'>
-            <a href='AgregarCita.php?id={$row['Paciente_ID']}' 
-                   class='text-blue-500 hover:underline'>
-                    Agregar Cita
-                </a>
-                </td>
+
+                
+            
 
         </tr>";
     }
@@ -284,6 +317,7 @@ if ($consulta->num_rows > 0) {
 
             </tbody>
         </table>
+    </div>
     </div>
 
     <div class="mt-10 flex flex-wrap justify-center gap-6 items-center w-full max-w-6xl">
@@ -327,9 +361,8 @@ if ($consulta->num_rows > 0) {
                       </div>
                     </a>
                    
-                  <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
+                    <a href="../Asset/MANUAL USUARIO EXPEDIENTE_MEDICO.pdf" class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </a>
                 </footer>
               </div>
           </div>
 </html>
-

@@ -7,6 +7,7 @@ include 'conexion.php';
 <!DOCTYPE html>
 <html>
 <head>
+<title>Empleados</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" 
           href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" />
@@ -136,6 +137,7 @@ include 'conexion.php';
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -156,7 +158,7 @@ include 'conexion.php';
             <input 
                 type="text" 
                 name="search" 
-                placeholder="Buscar por ID, descripción o licencia" 
+                placeholder="Buscar por ID // Nombre // fecha (anio-mes-dia)  // Numero (xxxx-xxxx)" 
                 class="w-full py-3 px-5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base" 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
             />
@@ -179,18 +181,18 @@ include 'conexion.php';
 
     <div class="bg-white shadow-lg overflow-hidden rounded-lg w-full max-w-9xl">
         <table class="min-w-full border-collapse">
-            <thead class="bg-gray-100 border-b">
+            <thead class="bg-blue-500 border-b">
                 <tr>
-                <th class="px-8 py-4 text-left text-base font-medium text-gray-600">Nombre Completo</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">ID Empleado</th>
-                <th class="px-8 py-4 text-left text-base font-medium text-gray-600">Fecha Contratación</th>
-                <th class="px-10 py-4 text-left text-base font-medium text-gray-600">Cargo</th>
-                <th class="px-9 py-4 text-left text-base font-medium text-gray-600">Fecha Inicio</th>
-                <th class="px-8 py-4 text-left text-base font-medium text-gray-600">Fecha Fin</th>
-                <th class="px-8 py-4 text-left text-base font-medium text-gray-600">Actual cargo?</th>
-                <th class="px-8 py-4 text-left text-base font-medium text-gray-600">Teléfono</th>
-                <th class="px-5 py-4 text-left text-base font-medium text-gray-600">Acción</th>
-                    
+                <th class="px-8 py-4 text-left text-base font-medium text-white">Nombre Completo</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">ID Empleado</th>
+<th class="px-8 py-4 text-left text-base font-medium text-white">Fecha Contratación</th>
+<th class="px-10 py-4 text-left text-base font-medium text-white">Cargo</th>
+<th class="px-9 py-4 text-left text-base font-medium text-white">Fecha Inicio</th>
+<th class="px-8 py-4 text-left text-base font-medium text-white">Fecha Fin</th>
+<th class="px-8 py-4 text-left text-base font-medium text-white">Actual cargo?</th>
+<th class="px-8 py-4 text-left text-base font-medium text-white">Teléfono</th>
+<th class="px-5 py-4 text-left text-base font-medium text-white">Acción</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -200,7 +202,21 @@ $rows_per_page = intval($_GET['rows_per_page'] ?? 5);
 $page = max(intval($_GET['page'] ?? 1), 1);
 $offset = ($page - 1) * $rows_per_page;
 
-// Consulta para obtener los datos con los teléfonos agrupados
+// Determinar el tipo de búsqueda
+if (preg_match('/^\d+$/', $busqueda)) { // Si es un número
+    $condicion = "EMPLEADO.ID = '$busqueda'";
+} elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $busqueda)) { // Si es una fecha (formato YYYY-MM-DD)
+    $condicion = "EMPLEADO.Fecha_Contratacion = '$busqueda'";
+} elseif (preg_match('/^\d{4}-\d{4}$/', $busqueda)) { // Si es un número de teléfono (formato xxxx-xxxx)
+    $condicion = "TELEFONO.Numero LIKE '%$busqueda%'";
+} else { // Por nombre o cargo
+    $condicion = "
+        CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) LIKE '%$busqueda%'
+        OR CARGO.Nombre LIKE '%$busqueda%'
+    ";
+}
+
+// Consulta para obtener los datos
 $consulta = $conexion->query("
     SELECT 
         EMPLEADO.ID AS Empleado_ID,
@@ -220,10 +236,7 @@ $consulta = $conexion->query("
     LEFT JOIN TELEFONO ON PERSONA.ID = TELEFONO.Persona_ID
     INNER JOIN EMPLEADO_has_CARGO ON EMPLEADO.ID = EMPLEADO_has_CARGO.EMPLEADO_ID
     INNER JOIN CARGO ON EMPLEADO_has_CARGO.CARGO_ID = CARGO.ID
-    WHERE 
-        CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) LIKE '%$busqueda%'
-        OR EMPLEADO.ID LIKE '%$busqueda%'
-        OR CARGO.Nombre LIKE '%$busqueda%'
+    WHERE $condicion
     GROUP BY 
         EMPLEADO.ID, Nombre_Completo, Cargo, Fecha_Inicio, Fecha_Fin, Fecha_Contratacion, Estado_Cargo
     LIMIT $rows_per_page OFFSET $offset
@@ -238,11 +251,9 @@ $total_consulta = $conexion->query("
     LEFT JOIN TELEFONO ON PERSONA.ID = TELEFONO.Persona_ID
     INNER JOIN EMPLEADO_has_CARGO ON EMPLEADO.ID = EMPLEADO_has_CARGO.EMPLEADO_ID
     INNER JOIN CARGO ON EMPLEADO_has_CARGO.CARGO_ID = CARGO.ID
-    WHERE 
-        CONCAT(PERSONA.PNombre, ' ', PERSONA.SNombre, ' ', PERSONA.PApellido, ' ', PERSONA.SApellido) LIKE '%$busqueda%'
-        OR EMPLEADO.ID LIKE '%$busqueda%'
-        OR CARGO.Nombre LIKE '%$busqueda%'
+    WHERE $condicion
 ");
+
 
 if ($total_consulta) {
     $total_rows = $total_consulta->fetch_assoc()['total'];
@@ -264,15 +275,10 @@ if ($consulta->num_rows > 0) {
             <td class='px-13 py-4'>{$row['Fecha_Fin']}</td>
             <td class='px-10 py-4'>{$row['Estado_Cargo']}</td>
             <td class='px-8 py-4'>{$row['Telefonos']}</td>
-<<<<<<< HEAD
+
              <td class='px-4 py-4'>
                 <a href='updateEmpleado.php?id={$row['Empleado_ID']}' 
                   class='text-blue-500 hover:underline'>
-=======
-            <td class='px-4 py-4'>
-                <a href='updateEmpleado.php?id={$row['Empleado_ID']}' 
-                   class='btn btn-warning'>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
                     Modificar
                 </a>
 
@@ -334,7 +340,7 @@ if ($consulta->num_rows > 0) {
                     </a>
                     
                   </div>
-                  <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
+                  <a href="../Asset/MANUAL USUARIO EXPEDIENTE_MEDICO.pdf" class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </a>
                 </footer>
               </div>
           </div>

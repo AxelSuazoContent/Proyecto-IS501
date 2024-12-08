@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
 <html>
   <head>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
@@ -12,12 +8,12 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Pagina Editar Paciente</title>
+    <title>Pagina Editar Empleados</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style>
-<<<<<<< HEAD
+
     body {
         overflow-x: hidden;
         font-family: 'Inter', 'Noto Sans', sans-serif;
@@ -142,6 +138,7 @@
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -152,8 +149,8 @@
             ><img src="../Asset/logos-UNAH-11.png" alt="Descripción de la imagen"></div>
     </nav>
 </header>
-=======
-        body {
+<style>
+      body {
             overflow-x: hidden;
             font-family: 'Inter', 'Noto Sans', sans-serif;
             background-color: #f5f5f5;
@@ -172,44 +169,8 @@
 </head>
 <body>
     <div class="relative flex min-h-screen flex-col bg-slate-50">
-    <header class="flex items-center justify-between border-b px-20 py-5 shadow-md">
+    
 
-    <div class="flex items-center gap-2"> 
-    <svg
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-6 h-6" 
-    >
-        <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
-            fill="currentColor"
-        ></path>
-    </svg>
-         <h1 class="text-3xl font-bold">MediCare</h1>
-        </div>
-
-
-        <nav class="flex gap-6">
-            
-            <a href="Empleado.php" class="font-semibold text-gray-700">Empleados</a>
-            <a href="#" class="font-semibold text-gray-700">Citas</a>
-            <a href="#" class="font-semibold text-gray-700">Historial Médico</a>
-          
-            <a href="inicio.php" class="font-semibold text-gray-700">Inicio</a>
-
-            <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
-              style="
-                background-image: url('https://cdn.usegalileo.ai/stability/b8951bbb-4539-4798-bee6-7a9bc44b9ce9.png');
-              "
-            ></div>
-        </nav>
-        
-    </header>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
         
     <div class="px-5 flex justify-center items-center py-5 bg-gray-100">
       <div class="layout-content-container bg-gray-200 p-10 rounded-lg shadow-lg flex flex-col w-full max-w-[512px]">
@@ -218,17 +179,17 @@
                 Editar Empleados
             </p>
         </div>
-<<<<<<< HEAD
+
 
         <!-- Formulario -->
         <form method="POST"  autocomplete="off">
-=======
+
         <div><br><button type="button"     class="w-full max-w-sm rounded-xl bg-white-600 text-black font-bold py-3 px-6 hover:bg-white-800 focus:ring-4 focus:ring-blue-300"
         onclick="location.href='Empleado.php'">Volver</button></div><br>
 
         <!-- Formulario -->
         <form id="formulario1" method="POST">
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
 
         <?php
 include_once("conexion.php");
@@ -241,13 +202,15 @@ $sql = "
 SELECT 
     p.*, -- Datos de la tabla Persona
     e.Gerente_ID,
-    e.Fecha_Contratacion, -- Fecha de contratación del empleado
+    e.ID as empleado,
+    e.Fecha_Contratacion,
     t.Numero, -- Número de teléfono relacionado con la persona
     eht.Area_Trabajo_ID, 
     at.Descripcion, -- Descripción del área de trabajo
     eht.Fecha_Hora_Asignacion, 
     eht.Fecha_Hora_Fin, -- Datos de la tabla empleado_has_area_trabajo
-    ehc.CARGO_ID, 
+    ehc.CARGO_ID,
+    ehc.EMPLEADO_ID as EMPLEADO_ID, 
     c.Nombre, -- Nombre del cargo
     ehc.Fecha_Inicio, 
     ehc.Fecha_Fin, -- Datos de la tabla empleado_has_cargo
@@ -255,7 +218,7 @@ SELECT
     es.Licencia -- Licencia de la especialidad
 FROM 
     Persona p
-LEFT JOIN empleado e ON p.ID = e.Persona_ID -- Relación con la tabla empleado
+LEFT JOIN empleado e ON p.ID = e.Persona_ID 
 LEFT JOIN telefono t ON p.ID = t.Persona_ID -- Relación con la tabla teléfono
 LEFT JOIN empleado_has_area_trabajo eht ON e.ID = eht.EMPLEADO_ID -- Relación con áreas de trabajo
 LEFT JOIN Area_Trabajo at ON eht.Area_Trabajo_ID = at.ID -- Relación con la tabla Área de Trabajo
@@ -263,7 +226,7 @@ LEFT JOIN empleado_has_cargo ehc ON e.ID = ehc.EMPLEADO_ID -- Relación con carg
 LEFT JOIN CARGO c ON ehc.CARGO_ID = c.ID -- Relación con la tabla Cargo
 LEFT JOIN ESPECIALIDAD es ON e.ID = es.ID -- Relación con la tabla Especialidad
 WHERE 
-    p.ID = $id";
+    e.ID = $id";
 
 
 // Ejecutamos la consulta
@@ -598,7 +561,7 @@ if ($resultado && $resultado->num_rows > 0) {
               </label>
             </div>
 
-<<<<<<< HEAD
+
               <div class="flex justify-center">
                
                 <button 
@@ -610,32 +573,25 @@ if ($resultado && $resultado->num_rows > 0) {
                     Guardar
                 </button>
    
-=======
-            <button
+
             
-    id="guardar"
-    type="submit"
-    class="w-full max-w-sm rounded-xl bg-blue-600 text-white font-bold py-3 px-6 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
-    >
-    Guardar
-</button>
 
 
 
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
 
 
             
         </div>
       </div>
     </div>
-<<<<<<< HEAD
+
     
   </body>
   <div class="px-40 flex flex-1 justify-center py-5">
-=======
+
     <div class="px-40 flex flex-1 justify-center py-5">
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
               <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                 <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
                   <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
@@ -651,9 +607,9 @@ if ($resultado && $resultado->num_rows > 0) {
                         </svg>
                       </div>
                     </a>
-<<<<<<< HEAD
+
                     
-=======
+
                     <a href="#">
                       <div class="text-[#4f7296]" data-icon="LinkedinLogo" data-size="24px" data-weight="regular">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -663,30 +619,30 @@ if ($resultado && $resultado->num_rows > 0) {
                         </svg>
                       </div>
                     </a>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
                   </div>
                   <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
                 </footer>
               </div>
           </div>
-<<<<<<< HEAD
-=======
+
+
   </body>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
 </html>
 
 
 
-<<<<<<< HEAD
+
 
 
 
 
 <?php
 
-=======
-<?php
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
+
+
 include_once("conexion.php");
 
 // Verificar si se ha enviado el formulario
@@ -719,12 +675,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $PApellido = $nombrePartes[2] ?? '';
     $SApellido = $nombrePartes[3] ?? '';
 
-<<<<<<< HEAD
+
     
 
 
-=======
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
+
     if ($PersonaID) {
         // Si existe PersonaID, actualiza los registros
         $sqlUpdatePersona = "UPDATE PERSONA 
@@ -732,11 +688,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                  Direccion = '$Direccion', correo = '$correo', sexo = '$sexo', Identidad = '$Identidad', 
                                  RTN = '$RTN', Fecha_Nacim = '$FechaNaci', Numero_Emergencia = '$Num_emergencia'
                              WHERE ID = '$PersonaID'";
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
+
         if (mysqli_query($conexion, $sqlUpdatePersona)) {
             // Actualizar el número de teléfono
             $sqlUpdateTelefono = "UPDATE TELEFONO 
@@ -745,7 +699,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!mysqli_query($conexion, $sqlUpdateTelefono)) {
                 echo "Error al actualizar TELEFONO: " . mysqli_error($conexion);
             }
-<<<<<<< HEAD
+
             
             $sqlGetEmpleadoId = "SELECT ID FROM EMPLEADO WHERE Persona_ID = '$PersonaID'";
 
@@ -772,64 +726,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
             echo "Error al actualizar empleado: " . mysqli_error($conexion);
             }
-=======
+
 
             // Actualizar información del empleado
             $sqlUpdateEmpleado = "UPDATE EMPLEADO 
                                   SET Fecha_Contratacion = '$FehaContrata', Gerente_ID = '$Gerente'
-                                  WHERE Persona_ID = '$PersonaID'";
+                                  WHERE ID = '$empleado_id'";
             if (mysqli_query($conexion, $sqlUpdateEmpleado)) {
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
 
-                // Actualizar cargo
+
+              if (empty($Cargo) || empty($FechaInicio) || empty($Fechafin)) {
+                die("Los datos del cargo son inválidos o están incompletos.");
+            }
                 $sqlUpdateCargo = "UPDATE EMPLEADO_has_CARGO 
-                                   SET CARGO_ID = '$Cargo', Fecha_Inicio = '$FechaInicio', Fecha_Fin = '$Fechafin'
-<<<<<<< HEAD
-                                   WHERE EMPLEADO_ID = '$empleadoId'";
-=======
-                                   WHERE EMPLEADO_ID = '$PersonaID'";  
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+                   SET CARGO_ID = '$Cargo', Fecha_Inicio = '$FechaInicio', Fecha_Fin = '$Fechafin'
+                   WHERE EMPLEADO_ID = '$empleadoId'";
+
+                                  
+
                 if (!mysqli_query($conexion, $sqlUpdateCargo)) {
                     echo "Error al actualizar EMPLEADO_has_CARGO: " . mysqli_error($conexion);
                 }
 
                 // Actualizar área de trabajo
                 $sqlUpdateArea = "UPDATE empleado_has_area_trabajo 
-                                  SET Area_Trabajo_ID = '$Area', Fecha_Hora_Asignacion = '$FechaHoraArea', Fecha_Hora_Fin = '$FechaHoraArea2'
-<<<<<<< HEAD
-                                  WHERE EMPLEADO_ID = '$empleadoId'";
-=======
-                                  WHERE EMPLEADO_ID = '$PersonaID'";  
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+                  SET Area_Trabajo_ID = '$Area', Fecha_Hora_Asignacion = '$FechaHoraArea', Fecha_Hora_Fin = '$FechaHoraArea2'
+                  WHERE EMPLEADO_ID = '$empleadoId'";
+
+                                  
+
                 if (!mysqli_query($conexion, $sqlUpdateArea)) {
                     echo "Error al actualizar empleado_has_area_trabajo: " . mysqli_error($conexion);
                 }
 
                 // Actualizar especialidad (si aplica)
                 if (!empty($Especi)) {
-<<<<<<< HEAD
+
                     $sqlUpdateEspecialidad = "UPDATE EMPLEADO_has_ESPECIALIDAD 
                                               SET ESPECIALIDAD_ID = '$Especi'
-                                              WHERE EMPLEADO_ID = '$empleadoId'";
-=======
-                  
-                    $sqlUpdateEspecialidad = "UPDATE EMPLEADO_has_ESPECIALIDAD 
-                                              SET ESPECIALIDAD_ID = '$Especi'
-                                              WHERE EMPLEADO_ID = '$PersonaID'"
-                                              ;  
+                                              WHERE empleado_ID = '$empleadoId'";
+
                                               
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
                     if (!mysqli_query($conexion, $sqlUpdateEspecialidad)) {
                         echo "Error al actualizar EMPLEADO_has_ESPECIALIDAD: " . mysqli_error($conexion);
                     }
                 }
 
-<<<<<<< HEAD
+
                 
-=======
-               // Aquí puedes hacer la redirección a otra página
-               
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
             } else {
                 echo "Error al actualizar EMPLEADO: " . mysqli_error($conexion);
             }
@@ -839,20 +785,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "El ID de la persona no se proporcionó.";
     }
-<<<<<<< HEAD
-  
-=======
+
 }
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
 ?>
-
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6

@@ -19,70 +19,174 @@ include_once("conexion.php");
   <title>Pagina Editar Paciente</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <style>
-        body {
-            overflow-x: hidden;
-            font-family: 'Inter', 'Noto Sans', sans-serif;
-            background-color: #f5f5f5;
-        }
+    body {
+        overflow-x: hidden;
+        font-family: 'Inter', 'Noto Sans', sans-serif;
+        background-color: #f5f5f5;
+    }
 
     header {
-        background-color: inherit; /* Hereda el color del body */
+        background-color: #F5F5F5;
+        border-bottom: 1px solid #e5e7eb;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
-    
+
+    nav {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
 
     nav a {
-        font-size: 1.30rem; 
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #374151;
+        text-decoration: none;
     }
 
-    .formulario{
-      width: 100%; /* Asegura que el formulario ocupe el 100% del espacio disponible */
-     
-    flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente línea si no caben */
-    
-    box-sizing: border-box;
+    nav a:hover {
+        color: #1d4ed8;
     }
-    </style>
-    <title>Pacientes</title>
-</head>
-<body>
-    <div class="relative flex min-h-screen flex-col bg-slate-50">
-    <header class="flex items-center justify-between border-b px-20 py-5 shadow-md">
 
-    <div class="flex items-center gap-2"> 
-    <svg
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-6 h-6" 
-    >
-        <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
-            fill="currentColor"
-        ></path>
-    </svg>
-         <h1 class="text-3xl font-bold">MediCare</h1>
+    /* Menú desplegable */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-btn {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #374151;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+        border: none;
+    }
+
+    .dropdown-btn:hover {
+        color: #1d4ed8;
+    }
+
+    .dropdown-content {
+        position: absolute;
+        display: none;
+        
+        top: 100%;
+        left: 0;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 0.375rem;
+        overflow: hidden;
+        z-index: 10;
+        padding: 8px;
+        border-radius: 5px;
+        white-space: nowrap;
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 0.75rem 1rem;
+        color: #374151;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f3f4f6;
+        color: #1d4ed8;
+    }
+
+    /* Mostrar menú al pasar el ratón */
+    .dropdown:hover .dropdown-content {
+        display: block;
+      
+    }
+
+    .dropdown-content:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+
+.dropdown-content[data-align="top"] {
+    top: auto;
+    bottom: 100%; /* Despliega el menú hacia arriba */
+}
+
+.dropdown-content[data-align="top"] {
+    top: auto;
+    bottom: 100%; /* Muestra el menú hacia arriba */
+}
+
+    .table-container {
+        overflow: visible !important;
+    position: relative; /* Asegúrate de que el contenedor sea un contexto de posición */
+}
+
+
+
+</style>
+
+<header class="flex items-center justify-between px-20 py-5">
+    <div class="flex items-center gap-2">
+        <svg
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+        >
+            <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z"
+                fill="currentColor"
+            ></path>
+        </svg>
+        <h1 class="text-3xl font-bold">MediCare</h1>
+    </div>
+
+    <nav>
+        <div class="dropdown">
+            <button class="dropdown-btn">
+                Gestiones Personales
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div class="dropdown-content">
+                <a href="Pacientes.php">Pacientes</a>
+                <a href="Empleado.php">Empleados</a>
+                <a href="Historial.php">Historial Médico</a>
+            </div>
         </div>
-
-
-        <nav class="flex gap-6">
-            
-            <a href="Pacientes.php" class="font-semibold text-gray-700">Pacientes</a>
-            <a href="#" class="font-semibold text-gray-700">Citas</a>
-            <a href="#" class="font-semibold text-gray-700">Historial Médico</a>
-        
-            <a href="inicio.php" class="font-semibold text-gray-700">Inicio</a>
-
-            <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
-              style="
-                background-image: url('https://cdn.usegalileo.ai/stability/b8951bbb-4539-4798-bee6-7a9bc44b9ce9.png');
-              "
-            ></div>
-        </nav>
-        
-    </header>
+        <div class="dropdown">
+        <button class="dropdown-btn">
+                Otras Gestiones
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+        <div class="dropdown-content">
+                <a href="CitasMedica.php">Citas</a>
+                <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
+            </div>
+       
+        </div>
+        <a href="inicio.php">Inicio</a>
+        <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-16"
+              
+            ><img src="../Asset/logos-UNAH-11.png" alt="Descripción de la imagen"></div>
+    </nav>
+</header>
+<body>
     <div class="px-40 flex justify-center items-center py-10 bg-gray-100">
     <div class="layout-content-container bg-gray-200 p-10 rounded-lg shadow-lg flex flex-col w-full max-w-[512px]">
         <div class="flex flex-wrap justify-between gap-3 mb-6">
@@ -91,11 +195,9 @@ include_once("conexion.php");
             </p>
         </div>
         <div><br><button type="button"     class="w-full max-w-sm rounded-xl bg-white-600 text-black font-bold py-3 px-6 hover:bg-white-800 focus:ring-4 focus:ring-blue-300"
-<<<<<<< HEAD
+
         onclick="location.href='Pacientes.php'">Volver</button></div><br>
-=======
-        onclick="location.href='Empleado.php'">Volver</button></div><br>
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6
+
         <!-- Formulario -->
         <form method="POST"  class="formulario">
         <?php
@@ -275,7 +377,7 @@ if ($resultado->num_rows > 0) {
                       </div>
                     </a>
                   </div>
-                  <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
+                  <a href="../Asset/MANUAL USUARIO EXPEDIENTE_MEDICO.pdf" class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </a>
                 </footer>
               </div>
           </div>
@@ -340,12 +442,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "El ID del paciente no se proporcionó.";
     }
 }
-<<<<<<< HEAD
-?>
-=======
+
 ?>
 
-
-
-
->>>>>>> 5b02995cb5026e6892669304c82130ba6344e9c6

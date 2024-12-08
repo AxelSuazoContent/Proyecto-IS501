@@ -7,6 +7,7 @@ include 'conexion.php';
 <!DOCTYPE html>
 <html>
 <head>
+<title>Historial Medico</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" 
           href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" />
@@ -136,6 +137,7 @@ include 'conexion.php';
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -156,7 +158,7 @@ include 'conexion.php';
             <input 
                 type="text" 
                 name="search" 
-                placeholder="Buscar por ID, descripción o licencia" 
+                placeholder="Buscar Nombre // Fecha // Identidad (xxxx-xxxx-xxxxx) // Telefono " 
                 class="w-full py-4 px-6 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg" 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
             />
@@ -178,17 +180,18 @@ include 'conexion.php';
 
     <!-- Contenedor de la tabla con overflow-x-auto para hacerla desplazable -->
     <div class="bg-white shadow-lg overflow-x-auto rounded-lg w-full">
-    <table class="min-w-full border-collapse text-lg">
-    <thead class="bg-gray-100 border-b">
+    <table class="min-w-full border-collapse text-sm">
+    <thead class="bg-blue-500 border-b">
         <tr>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 10%;">ID</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 12%;">Fecha Inicio</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 12%;">Fecha de Visita</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 20%;">Nombre del Paciente</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 10%;">Identidad</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 10%;">Teléfonos</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 15%;">Correo</th>
-            <th class="px-4 py-6 text-left font-medium text-gray-600" style="width: 25%;">Observaciones</th> <!-- Ancho ajustado -->
+        <th class="px-4 py-6 text-left font-medium text-white" style="width: 10%;">ID</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 12%;">Fecha Inicio</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 12%;">Fecha de Visita</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 20%;">Nombre del Paciente</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 10%;">Identidad</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 10%;">Teléfonos</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 15%;">Correo</th>
+<th class="px-4 py-6 text-left font-medium text-white" style="width: 25%;">Observaciones</th>
+ 
         </tr>
     </thead>
     <tbody>
@@ -198,43 +201,57 @@ include 'conexion.php';
         $page = max(intval($_GET['page'] ?? 1), 1);
         $offset = ($page - 1) * $rows_per_page;
 
-        $consulta = $conexion->query(" 
-            SELECT 
-                HM.ID AS HistorialID,
-                HM.Fecha_Inicio,
-                HM.Fecha,
-                HM.Observaciones,
-                CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) AS PacienteNombreCompleto,
-                P.Identidad,
-                P.correo,
-                P.sexo,
-                GROUP_CONCAT(T.Numero SEPARATOR ' , ') AS TelefonosPaciente
-            FROM 
-                Historial_Medico HM
-            INNER JOIN PACIENTE PAC ON HM.Paciente_ID = PAC.ID
-            INNER JOIN PERSONA P ON PAC.PERSONA_ID = P.ID
-            LEFT JOIN TELEFONO T ON T.Persona_ID = P.ID
-            GROUP BY HM.ID, HM.Fecha_Inicio, HM.Fecha, HM.Observaciones, P.ID
-            ORDER BY HM.Fecha DESC
-            LIMIT $offset, $rows_per_page;
-        ");
-
-        // Consulta para contar el total de filas
-        $total_consulta = $conexion->query("
-            SELECT COUNT(DISTINCT HM.ID) AS total
-            FROM 
-                Historial_Medico HM
-            INNER JOIN PACIENTE PAC ON HM.Paciente_ID = PAC.ID
-            INNER JOIN PERSONA P ON PAC.PERSONA_ID = P.ID
-            LEFT JOIN TELEFONO T ON P.ID = T.Persona_ID
-            WHERE 
+        $consulta = $conexion->query("
+        SELECT 
+            HM.ID AS HistorialID,
+            HM.Fecha_Inicio,
+            HM.Fecha,
+            HM.Observaciones,
+            CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) AS PacienteNombreCompleto,
+            P.Identidad,
+            P.correo,
+            P.sexo,
+            GROUP_CONCAT(T.Numero SEPARATOR ' , ') AS TelefonosPaciente
+        FROM 
+            Historial_Medico HM
+        INNER JOIN PACIENTE PAC ON HM.Paciente_ID = PAC.ID
+        INNER JOIN PERSONA P ON PAC.PERSONA_ID = P.ID
+        LEFT JOIN TELEFONO T ON T.Persona_ID = P.ID
+        WHERE 
+            (
                 HM.Observaciones LIKE '%$busqueda%'
                 OR CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) LIKE '%$busqueda%'
-                OR P.Identidad LIKE '%$busqueda%'
-                OR T.Numero LIKE '%$busqueda%'
+                OR P.Identidad REGEXP '^[0-9]{4}-[0-9]{4}-[0-9]{5}$' AND P.Identidad LIKE '%$busqueda%'
+                OR T.Numero REGEXP '^[0-9]{4}-[0-9]{4}$' AND T.Numero LIKE '%$busqueda%'
                 OR P.correo LIKE '%$busqueda%'
                 OR P.sexo LIKE '%$busqueda%'
-        ");
+                OR HM.Fecha REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' AND HM.Fecha LIKE '%$busqueda%'
+            )
+        GROUP BY HM.ID, HM.Fecha_Inicio, HM.Fecha, HM.Observaciones, P.ID
+        ORDER BY HM.Fecha DESC
+        LIMIT $offset, $rows_per_page;
+    ");
+    
+    // Consulta para contar el total de filas
+    $total_consulta = $conexion->query("
+        SELECT COUNT(DISTINCT HM.ID) AS total
+        FROM 
+            Historial_Medico HM
+        INNER JOIN PACIENTE PAC ON HM.Paciente_ID = PAC.ID
+        INNER JOIN PERSONA P ON PAC.PERSONA_ID = P.ID
+        LEFT JOIN TELEFONO T ON P.ID = T.Persona_ID
+        WHERE 
+            (
+                HM.Observaciones LIKE '%$busqueda%'
+                OR CONCAT(P.PNombre, ' ', P.SNombre, ' ', P.PApellido, ' ', P.SApellido) LIKE '%$busqueda%'
+                OR P.Identidad REGEXP '^[0-9]{4}-[0-9]{4}-[0-9]{5}$' AND P.Identidad LIKE '%$busqueda%'
+                OR T.Numero REGEXP '^[0-9]{4}-[0-9]{4}$' AND T.Numero LIKE '%$busqueda%'
+                OR P.correo LIKE '%$busqueda%'
+                OR P.sexo LIKE '%$busqueda%'
+                OR HM.Fecha REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' AND HM.Fecha LIKE '%$busqueda%'
+            )
+    ");
+    
 
         if ($total_consulta) {
             $total_rows = $total_consulta->fetch_assoc()['total'];
@@ -277,12 +294,18 @@ include 'conexion.php';
                 </a>
             <?php endfor; ?>
         </div>
-    </div>
+    </div><br>
+    <a href="Imprimir.php">
+    <button type="button" class="w-full max-w-lg rounded-xl bg-white-600 text-black font-bold py-3 px-6 border border-black hover:bg-white-600 focus:ring-4 focus:ring-blue-300">    
+    Reportes
+    </button>
+</a>
 </main>
 
 
  </div>
 </body>
+
 <div class="px-40 flex flex-1 justify-center py-5">
               <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                 <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
@@ -301,7 +324,7 @@ include 'conexion.php';
                     </a>
                     
                   </div>
-                  <p class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </p>
+                  <a href="../Asset/MANUAL USUARIO EXPEDIENTE_MEDICO.pdf" class="text-[#4f7296] text-base font-normal leading-normal">By Alumnos IS501 </a>
                 </footer>
               </div>
           </div>

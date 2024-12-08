@@ -8,6 +8,7 @@ include 'conexion.php';
 <html>
 
 <head>
+<title>Consultas Medicas</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" 
           href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" />
@@ -138,6 +139,7 @@ include 'conexion.php';
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -157,7 +159,7 @@ include 'conexion.php';
             <input 
                 type="text" 
                 name="search" 
-                placeholder="Buscar por ID, descripción o licencia" 
+                placeholder="Buscar Nombre_Paciente // Nombre_Doctor // Fecha // Observacion // Diagnostico" 
                 class="w-full py-3 px-5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base" 
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
             />
@@ -180,19 +182,19 @@ include 'conexion.php';
 
     <div class="bg-white shadow-lg overflow-hidden rounded-lg w-full max-w-full">
     <table class="min-w-full border-collapse">
-        <thead class="bg-gray-100 border-b">
+        <thead class="bg-blue-500 border-b">
             <tr>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">ID</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Fecha y Hora</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Nombre Paciente</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Sexo</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Observacion</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Diagnostico</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Doctor</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Cita_ID</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Receta</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Operacion</th>
-                <th class="px-6 py-4 text-left text-base font-medium text-gray-600">Estudios especializados</th>
+            <th class="px-6 py-4 text-left text-base font-medium text-white">ID</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Fecha y Hora</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Nombre Paciente</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Observación</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Diagnóstico</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Doctor</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Cita_ID</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Operación</th>
+<th class="px-6 py-4 text-left text-base font-medium text-white">Estudios especializados</th>
+<th class="px-9 py-4 text-left text-base font-medium text-white">Acción</th>
+
             </tr>
         </thead>
         <tbody>
@@ -202,48 +204,67 @@ $rows_per_page = intval($_GET['rows_per_page'] ?? 5);
 $page = max(intval($_GET['page'] ?? 1), 1);
 $offset = ($page - 1) * $rows_per_page;
 
-$consulta = $conexion->query("
-   SELECT 
-    cm.ID AS ID_CONSULTA,
-    cita.ID AS ID_CITA,
-    cm.Fecha_Hora AS FECHA_HORA_REGISTRADA,
-    CONCAT(pac_persona.PNombre, ' ', pac_persona.SNombre, ' ', pac_persona.PApellido, ' ', pac_persona.SApellido) AS NOMBRE_COMPLETO_PACIENTE,
-    pac_persona.sexo AS SEXO_PACIENTE,
-    cm.Observaciones AS OBSERVACIONES_CONSULTA,
-    diag.Descripcion AS DIAGNOSTICO_CONSULTA,
-    CONCAT(doc_persona.PNombre, ' ', doc_persona.SNombre, ' ', doc_persona.PApellido, ' ', doc_persona.SApellido) AS NOMBRE_COMPLETO_DOCTOR,
-    CONCAT(rec.Medicamento, ' - ', rec.Dosis, ' - ', rec.Frecuencia) AS RECETA_INDICADA,
-    es.NOMBRE AS DESCRIPCION_ESTUDIO_ESPECIALIZADO,
-    iq.OBSERVACIONES AS DESCRIPCION_INTERVENCION_QUIRURGICA
-FROM 
-    CONSULTAS_MEDICA cm
-LEFT JOIN CITA_MEDICA cita ON cm.CITA_MEDICA_ID = cita.ID
-LEFT JOIN PACIENTE pac ON cita.PACIENTE_ID = pac.ID
-LEFT JOIN PERSONA pac_persona ON pac.PERSONA_ID = pac_persona.ID
-LEFT JOIN EMPLEADO doc ON cita.DOCTOR_ID = doc.ID
-LEFT JOIN PERSONA doc_persona ON doc.Persona_ID = doc_persona.ID
-LEFT JOIN DIAGNOSTICO diag ON cm.DIAGNOSTICO_ID = diag.ID
-LEFT JOIN RECETA rec ON cm.RECETA_ID = rec.ID
-LEFT JOIN CONSULTAS_MEDICA_has_Pruebas_diagnostico cmpd ON cm.ID = cmpd.CONSULTAS_MEDICAS_ID
-LEFT JOIN ESTUDIOS_ESPECIALIZADO es ON cmpd.Pruebas_diagnostico_ID = es.ID
-LEFT JOIN INTERVENCION_QUIRURGICA iq ON cm.INTERVENCION_QUIRURGICA_ID = iq.ID
-ORDER BY cm.ID, es.ID;
 
+   $consulta = $conexion->query("
+    SELECT 
+        cm.ID AS ID_CONSULTA,
+        cita.ID AS ID_CITA,
+        cm.Fecha_Hora AS FECHA_HORA_REGISTRADA,
+        CONCAT(pac_persona.PNombre, ' ', pac_persona.SNombre, ' ', pac_persona.PApellido, ' ', pac_persona.SApellido) AS NOMBRE_COMPLETO_PACIENTE,
+        pac_persona.sexo AS SEXO_PACIENTE,
+        cm.Observaciones AS OBSERVACIONES_CONSULTA,
+        diag.Descripcion AS DIAGNOSTICO_CONSULTA,
+        CONCAT(doc_persona.PNombre, ' ', doc_persona.SNombre, ' ', doc_persona.PApellido, ' ', doc_persona.SApellido) AS NOMBRE_COMPLETO_DOCTOR,
+        CONCAT(rec.Medicamento, ' - ', rec.Dosis, ' - ', rec.Frecuencia) AS RECETA_INDICADA,
+        (
+            SELECT es.NOMBRE 
+            FROM CONSULTAS_MEDICA_has_Pruebas_diagnostico cmpd
+            Inner join Pruebas_Diagnostico pd ON pd.ID = cmpd.Pruebas_diagnostico_ID 
+            INNER JOIN ESTUDIOS_ESPECIALIZADO es ON pd.Estudios_ID = es.ID
+            WHERE cmpd.CONSULTAS_MEDICAS_ID = cm.ID
+            ORDER BY es.ID DESC 
+            LIMIT 1
+        ) AS DESCRIPCION_ESTUDIO_ESPECIALIZADO,
+        iq.OBSERVACIONES AS DESCRIPCION_INTERVENCION_QUIRURGICA
+    FROM 
+        CONSULTAS_MEDICA cm
+    LEFT JOIN CITA_MEDICA cita ON cm.CITA_MEDICA_ID = cita.ID
+    LEFT JOIN PACIENTE pac ON cita.PACIENTE_ID = pac.ID
+    LEFT JOIN PERSONA pac_persona ON pac.PERSONA_ID = pac_persona.ID
+    LEFT JOIN EMPLEADO doc ON cita.DOCTOR_ID = doc.ID
+    LEFT JOIN PERSONA doc_persona ON doc.Persona_ID = doc_persona.ID
+    LEFT JOIN DIAGNOSTICO diag ON cm.DIAGNOSTICO_ID = diag.ID
+    LEFT JOIN RECETA rec ON cm.RECETA_ID = rec.ID
+    LEFT JOIN INTERVENCION_QUIRURGICA iq ON cm.INTERVENCION_QUIRURGICA_ID = iq.ID
+    WHERE
+        CONCAT(pac_persona.PNombre, ' ', pac_persona.SNombre, ' ', pac_persona.PApellido, ' ', pac_persona.SApellido) LIKE '%$busqueda%'
+        OR CONCAT(doc_persona.PNombre, ' ', doc_persona.SNombre, ' ', doc_persona.PApellido, ' ', doc_persona.SApellido) LIKE '%$busqueda%'
+        OR cm.Fecha_Hora LIKE '%$busqueda%'  -- Búsqueda por Fecha y Hora
+        OR cm.Observaciones LIKE '%$busqueda%'  -- Búsqueda por Observaciones
+        OR diag.Descripcion LIKE '%$busqueda%'  -- Búsqueda por Diagnóstico
+    ORDER BY cm.ID
+    LIMIT $offset, $rows_per_page;
 ");
 
 
+
+// Consulta para contar el total de filas
 $total_consulta = $conexion->query("
     SELECT COUNT(*) AS total
     FROM CONSULTAS_MEDICA CM
     INNER JOIN CITA_MEDICA CITA ON CM.CITA_MEDICA_ID = CITA.ID
+    LEFT JOIN DIAGNOSTICO diag ON CM.DIAGNOSTICO_ID = diag.ID
     INNER JOIN PACIENTE PAC ON CITA.PACIENTE_ID = PAC.ID
     INNER JOIN PERSONA PACIENTE_PERSONA ON PAC.PERSONA_ID = PACIENTE_PERSONA.ID
     INNER JOIN EMPLEADO DOCTOR ON CITA.DOCTOR_ID = DOCTOR.ID
     INNER JOIN PERSONA DOCTOR_PERSONA ON DOCTOR.Persona_ID = DOCTOR_PERSONA.ID
+    
     WHERE 
         CONCAT(PACIENTE_PERSONA.PNombre, ' ', PACIENTE_PERSONA.SNombre, ' ', PACIENTE_PERSONA.PApellido, ' ', PACIENTE_PERSONA.SApellido) LIKE '%$busqueda%'
-        OR DOCTOR_PERSONA.PNombre LIKE '%$busqueda%'
-        OR CM.ID LIKE '%$busqueda%'
+        OR CONCAT(DOCTOR_PERSONA.PNombre, ' ', DOCTOR_PERSONA.SNombre, ' ', DOCTOR_PERSONA.PApellido, ' ', DOCTOR_PERSONA.SApellido) LIKE '%$busqueda%'
+        OR CM.Fecha_Hora LIKE '%$busqueda%'  
+        OR CM.Observaciones LIKE '%$busqueda%' 
+        OR diag.Descripcion LIKE '%$busqueda%'  
 ");
 
 $total_rows = $total_consulta->fetch_assoc()['total'] ?? 0;
@@ -256,14 +277,18 @@ if ($consulta->num_rows > 0) {
             <td class='px-6 py-4'>{$row['ID_CONSULTA']}</td>
             <td class='px-6 py-4'>{$row['FECHA_HORA_REGISTRADA']}</td>
             <td class='px-6 py-4'>{$row['NOMBRE_COMPLETO_PACIENTE']}</td>
-            <td class='px-6 py-4'>{$row['SEXO_PACIENTE']}</td>
+            
             <td class='px-6 py-4'>{$row['OBSERVACIONES_CONSULTA']}</td>
             <td class='px-6 py-4'>{$row['DIAGNOSTICO_CONSULTA']}</td>
             <td class='px-6 py-4'>{$row['NOMBRE_COMPLETO_DOCTOR']}</td>
             <td class='px-6 py-4'>{$row['ID_CITA']}</td>
-            <td class='px-6 py-4'>{$row['RECETA_INDICADA']}</td>
+           
             <td class='px-6 py-4'>{$row['DESCRIPCION_INTERVENCION_QUIRURGICA']}</td>
             <td class='px-6 py-4'>{$row['DESCRIPCION_ESTUDIO_ESPECIALIZADO']}</td>
+            <td class='px-10 py-4'>
+    <div>
+            <a href='factura.php?id={$row['ID_CONSULTA']}' class='text-blue-500 hover:underline'>Generar Factura</a>
+        </div>
         </tr>";
     }
 } else {

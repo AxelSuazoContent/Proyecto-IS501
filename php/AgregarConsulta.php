@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Pagina registrar Cita Medica</title>
+    <title>Pagina registrar Consulta Medica</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -137,6 +137,7 @@
         <div class="dropdown-content">
                 <a href="CitasMedica.php">Citas</a>
                 <a href="ConsultaMedica.php">Consultas</a>
+                <a href="Polizas.php">Polizas</a>
             </div>
        
         </div>
@@ -157,8 +158,8 @@
         </div>
 
         <?php
-    // Verificar si el formulario fue enviado y si el checkbox está marcado
-    $mostrarCampos = isset($_POST['terminos']) && $_POST['terminos'] == 'on';
+              // Verificar si el formulario fue enviado y si el checkbox está marcado
+            $mostrarCampos = isset($_POST['terminos']) && $_POST['terminos'] == 'on';
 ?>
 
 
@@ -192,7 +193,7 @@ JOIN PERSONA d ON e.PERSONA_ID = d.ID
 JOIN HABITACION h ON c.HABITACIONES_ID = h.ID
 WHERE c.ID = $id";  // Aquí nos aseguramos de filtrar por el ID de cita
 
-// Ejecutamos la consulta
+
 $resultado = $conexion->query($sql);
 
 // Inicializamos las variables para evitar errores si no hay datos
@@ -206,9 +207,7 @@ if ($resultado && $resultado->num_rows > 0) {
     // Si se encontraron datos, los procesamos
     $row1 = $resultado->fetch_assoc();
     
-} else {
-    echo "No se encontraron datos para el ID proporcionado hola.";
-}
+} 
 
 ?>
 
@@ -301,7 +300,7 @@ if ($resultado && $resultado->num_rows > 0) {
                   name="ObserIni"
                   placeholder="¿Por qué vino?"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111717] focus:outline-0 focus:ring-0 border border-black bg-white focus:border-black h-14 placeholder:text-[#648783] p-[15px] text-base font-normal leading-normal"
-                    value="<?php echo $row1['Observaciones']?>"
+                    value="<?php echo isset($row1['Observaciones']) ? $row1['Observaciones'] : ''; ?>"
                  /> 
               </label>
             </div>
@@ -313,7 +312,7 @@ if ($resultado && $resultado->num_rows > 0) {
                 name = "Emergencia"
                   placeholder="xxxxxxxxxxxxxxx"
                   class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111717] focus:outline-0 focus:ring-0 border border-black bg-white focus:border-black h-14 placeholder:text-[#648783] p-[15px] text-base font-normal leading-normal"
-                  value="<?php echo $row1['Numero_Emergencia']?>"
+                 value="<?php echo isset($row1['Numero_Emergencia']) ? $row1['Numero_Emergencia'] : ''; ?>"
                   
                 />
               </label>
