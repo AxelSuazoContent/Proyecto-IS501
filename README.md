@@ -8,7 +8,7 @@ Repositorio: https://github.com/AxelSuazoContent/Proyecto-IS501
 
 ## 🎥 Demo en Video
 <!-- Inserta aquí el enlace al video de demostración -->
-[![Demo Expediente Médico](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/VIDEO_ID)
+[![Demo Expediente Médico]([https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/VIDEO_ID](https://youtu.be/f0sMecqtqPQ))
 
 ---
 
